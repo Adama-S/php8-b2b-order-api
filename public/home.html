@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101827">
+    <title>B2B Order API — Accueil</title>
+    <style>
+        :root { color-scheme: light; --ink: #182238; --muted: #64718a; --blue: #4b67f5; --line: #e3e8f1; }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f5f7fb; color: var(--ink); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+        .hero { min-height: 440px; display: flex; align-items: center; color: white; background: radial-gradient(ellipse at 75% 20%, #334ba7 0, transparent 40%), linear-gradient(135deg, #111827, #1b2740); }
+        .hero-inner, main, footer { width: min(100% - 40px, 1000px); margin: 0 auto; }
+        .hero-inner { padding: 76px 0; }
+        .eyebrow { color: #aebdff; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+        h1 { max-width: 720px; margin: 14px 0 14px; font-size: clamp(38px, 7vw, 66px); letter-spacing: -.055em; line-height: 1.02; }
+        .hero p { max-width: 640px; margin: 0; color: #cbd3e3; font-size: 17px; }
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+        .button { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #ffffff38; border-radius: 9px; padding: 11px 16px; color: white; font-weight: 750; text-decoration: none; }
+        .button.primary { border-color: #7487ff; background: var(--blue); box-shadow: 0 7px 22px #4b67f542; }
+        .button:hover { transform: translateY(-1px); }
+        main { padding: 42px 0 30px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .card { min-height: 138px; border: 1px solid var(--line); border-radius: 12px; background: white; padding: 19px; box-shadow: 0 5px 18px #18223808; }
+        .card b { display: block; margin-bottom: 5px; font-size: 16px; }
+        .card p { margin: 0; color: var(--muted); font-size: 13px; }
+        .card code { display: block; margin-top: 12px; color: #4458c9; font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; }
+        .callout { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; border-radius: 12px; background: #eaf0ff; padding: 18px 20px; color: #394b83; }
+        .callout strong { display: block; color: #24356b; }
+        .callout a { color: #354ec9; font-weight: 750; }
+        footer { padding: 18px 0 32px; color: var(--muted); font-size: 12px; }
+        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } .hero { min-height: auto; } .hero-inner { padding: 58px 0; } }
+    </style>
+</head>
+<body>
+<header class="hero">
+    <div class="hero-inner">
+        <div class="eyebrow">PHP 8 natif · PostgreSQL · REST</div>
+        <h1>Commandes B2B,<br>sans complexite inutile.</h1>
+        <p>Une API legere concue pour les integrations metier : stock protege, commandes idempotentes et file locale pour les reseaux instables.</p>
+        <div class="actions">
+            <a class="button primary" href="/docs">Ouvrir la documentation <span aria-hidden="true">→</span></a>
+            <a class="button" href="/openapi.json">Specification OpenAPI</a>
+        </div>
+    </div>
+</header>
+<main>
+    <div class="grid">
+        <article class="card"><b>Stock protege</b><p>Reservation dans une transaction avec verrouillage des produits et verification des quantites.</p><code>POST /orders</code></article>
+        <article class="card"><b>Requetes rejouables</b><p>Cle idempotente stable : les doubles appels ne creent pas une seconde commande.</p><code>GET /idempotency-key</code></article>
+        <article class="card"><b>Reseau tolerant</b><p>La documentation permet de mettre les commandes en attente et de les synchroniser au retour du reseau.</p><code>localStorage + retry</code></article>
+    </div>
+    <div class="callout">
+        <div><strong>Tester l'API directement dans le navigateur</strong>Parcourez le catalogue, creez une commande ou consultez son etat depuis la documentation.</div>
+        <a href="/docs">Acceder aux endpoints →</a>
+    </div>
+</main>
+<footer>API de demonstration en PHP natif · Documentation et contrat OpenAPI servis localement.</footer>
+</body>
+</html>

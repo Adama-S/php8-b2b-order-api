@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111827">
+    <title>B2B Order API — Documentation</title>
+    <style>
+        :root { color-scheme: light; --ink: #172033; --muted: #68738a; --line: #e1e7f0; --blue: #365cf5; --mint: #d9f8ee; }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f5f7fb; color: var(--ink); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+        header { background: radial-gradient(ellipse at 85% 5%, #3349a4, transparent 38%), #111827; color: white; padding: 56px max(24px, calc((100vw - 1040px) / 2)) 48px; }
+        .eyebrow { color: #aebcff; font-size: 12px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+        h1 { margin: 10px 0 8px; font-size: clamp(32px, 5vw, 48px); letter-spacing: -.04em; line-height: 1.1; }
+        header p { max-width: 690px; margin: 0; color: #c6cddd; }
+        main { max-width: 1040px; margin: 32px auto 72px; padding: 0 24px; }
+        .toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 22px; }
+        .status { display: inline-flex; align-items: center; gap: 9px; color: #27765e; font-weight: 700; }
+        .dot { width: 9px; height: 9px; border-radius: 50%; background: #20b486; box-shadow: 0 0 0 4px var(--mint); }
+        a.button { display: inline-block; border: 1px solid var(--line); border-radius: 9px; background: white; color: var(--ink); padding: 9px 13px; font-weight: 700; text-decoration: none; }
+        section { margin: 28px 0; }
+        h2 { font-size: 19px; letter-spacing: -.02em; }
+        .card { overflow: hidden; margin: 12px 0; border: 1px solid var(--line); border-radius: 12px; background: white; box-shadow: 0 3px 12px #1b2d4d08; }
+        .endpoint { display: flex; align-items: center; gap: 12px; padding: 15px 18px; }
+        .method { min-width: 62px; border-radius: 6px; padding: 4px 8px; text-align: center; font-size: 11px; font-weight: 900; letter-spacing: .04em; }
+        .get { background: #e8f1ff; color: #2458b8; } .post { background: #e0f8ec; color: #13744c; }
+        code { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; }
+        .endpoint strong { margin-left: auto; color: var(--muted); font-size: 13px; font-weight: 500; }
+        .details { border-top: 1px solid var(--line); padding: 13px 18px; color: var(--muted); }
+        .details code { color: #35405a; }
+        pre { overflow-x: auto; margin: 12px 0 0; border-radius: 9px; background: #111827; color: #dce6ff; padding: 16px; font-size: 13px; }
+        .note { border-left: 3px solid var(--blue); background: #eef2ff; padding: 12px 16px; color: #3e4c75; }
+        footer { margin-top: 40px; color: var(--muted); font-size: 13px; }
+        @media (max-width: 620px) { header { padding-top: 38px; } .endpoint { flex-wrap: wrap; } .endpoint strong { width: 100%; margin-left: 74px; } main { padding: 0 16px; } }
+        .try-button { margin-left: auto; border: 1px solid #d1daf0; border-radius: 7px; background: white; color: #34415d; padding: 6px 10px; font: inherit; font-size: 12px; font-weight: 750; cursor: pointer; }
+        .try-button:hover { border-color: var(--blue); color: var(--blue); }
+        .try-panel { display: none; border-top: 1px solid var(--line); padding: 16px 18px; background: #fbfcff; }
+        .try-panel.open { display: block; }
+        .try-panel label { display: block; margin: 10px 0 5px; color: #505c74; font-size: 12px; font-weight: 750; }
+        .try-panel input, .try-panel textarea { width: 100%; border: 1px solid #d5ddeb; border-radius: 7px; padding: 9px 10px; background: white; color: var(--ink); font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; }
+        .try-panel textarea { min-height: 116px; resize: vertical; }
+        .try-panel input:focus, .try-panel textarea:focus { outline: 2px solid #dce4ff; border-color: var(--blue); }
+        .try-actions { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+        .try-send { border: 0; border-radius: 7px; background: var(--blue); color: white; padding: 9px 14px; font: inherit; font-size: 13px; font-weight: 750; cursor: pointer; }
+        .try-send:disabled { opacity: .6; cursor: wait; }
+        .try-result { min-height: 20px; color: var(--muted); font-size: 12px; }
+        .try-panel pre { max-height: 300px; margin-top: 12px; }
+        .input-with-button { display: flex; gap: 8px; }
+        .input-with-button input { min-width: 0; flex: 1; }
+        .generate-key { flex: 0 0 auto; border: 1px solid #d1daf0; border-radius: 7px; background: white; color: #34415d; padding: 8px 11px; font: inherit; font-size: 12px; font-weight: 750; cursor: pointer; }
+        .key-status { margin-top: 4px; color: var(--muted); font-size: 12px; }
+        .offline-queue { margin: 22px 0; border: 1px solid var(--line); border-radius: 12px; background: white; padding: 17px 18px; }
+        .queue-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .queue-heading h2 { margin: 0; }
+        .queue-status { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+        .queue-list { margin: 12px 0 0; padding: 0; list-style: none; }
+        .queue-item { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; border-top: 1px solid var(--line); padding: 10px 0; }
+        .queue-item code { overflow-wrap: anywhere; }
+        .queue-item span { color: var(--muted); font-size: 12px; }
+        .queue-remove { margin-left: auto; border: 0; background: transparent; color: #a23535; font: inherit; font-size: 12px; cursor: pointer; }
+        .queue-retry { border: 1px solid #d1daf0; border-radius: 7px; background: white; color: #34415d; padding: 7px 10px; font: inherit; font-size: 12px; font-weight: 750; cursor: pointer; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="eyebrow">PHP natif · PostgreSQL · REST</div>
+    <h1>B2B Order API</h1>
+    <p>Une API volontairement compacte pour les integrations metier : commandes idempotentes, stock protege et reponses JSON previsibles, sans framework ni dependance cote navigateur.</p>
+</header>
+<main>
+    <div class="toolbar">
+        <a class="button" href="/">Accueil</a>
+        <div class="status"><span class="dot"></span> API disponible <code>GET /health</code></div>
+        <a class="button" href="/openapi.json">Specification OpenAPI 3.1 ↗</a>
+    </div>
+
+    <section>
+        <h2>Catalogue</h2>
+        <article class="card">
+            <div class="endpoint"><span class="method get">GET</span><code>/products</code><strong>Liste paginee des produits actifs</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">Parametres : <code>page</code> (defaut 1), <code>per_page</code> (defaut 20, max 100). Prix en centimes.</div>
+            <form class="try-panel" data-method="GET" data-path="/products">
+                <label>page</label><input name="page" type="number" min="1" value="1">
+                <label>per_page</label><input name="per_page" type="number" min="1" max="100" value="10">
+                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <pre class="try-response" hidden></pre>
+            </form>
+        </article>
+        <article class="card">
+            <div class="endpoint"><span class="method get">GET</span><code>/products/{id}</code><strong>Detail et quantite disponible</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">Les produits inactifs sont masques et retournes comme introuvables.</div>
+            <form class="try-panel" data-method="GET" data-path-template="/products/{id}">
+                <label>id</label><input name="id" type="number" min="1" value="1" required>
+                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <pre class="try-response" hidden></pre>
+            </form>
+        </article>
+    </section>
+
+    <section>
+        <h2>Commandes</h2>
+        <article class="card">
+            <div class="endpoint"><span class="method get">GET</span><code>/orders</code><strong>Liste paginee des commandes recentes</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">Parametres : <code>page</code> (defaut 1), <code>per_page</code> (defaut 20, max 100). Les commandes les plus recentes apparaissent en premier.</div>
+            <form class="try-panel" data-method="GET" data-path="/orders">
+                <label>page</label><input name="page" type="number" min="1" value="1">
+                <label>per_page</label><input name="per_page" type="number" min="1" max="100" value="10">
+                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <pre class="try-response" hidden></pre>
+            </form>
+        </article>
+        <article class="card">
+            <div class="endpoint"><span class="method get">GET</span><code>/orders/{id}</code><strong>Detail d'une commande</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">Retourne le statut, le total, la date de creation et les lignes avec leur prix fige au moment de la commande.</div>
+            <form class="try-panel" data-method="GET" data-path-template="/orders/{id}">
+                <label>id</label><input name="id" type="number" min="1" value="1" required>
+                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <pre class="try-response" hidden></pre>
+            </form>
+        </article>
+        <article class="card">
+            <div class="endpoint"><span class="method post">POST</span><code>/orders</code><strong>Creer une commande</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">
+                Envoyer <code>Content-Type: application/json</code> et une cle stable dans <code>Idempotency-Key</code>.
+                <pre>{
+  "customer_id": 42,
+  "items": [
+    { "product_id": 1, "quantity": 2 }
+  ]
+}</pre>
+            </div>
+            <form class="try-panel" data-method="POST" data-path="/orders">
+                <label>Idempotency-Key</label>
+                <div class="input-with-button">
+                    <input name="idempotency_key" type="text" maxlength="255" required>
+                    <button class="generate-key" type="button">Generer</button>
+                </div>
+                <div class="key-status" aria-live="polite"></div>
+                <label>Request body</label><textarea name="body" required>{
+  "customer_id": 1001,
+  "items": [
+    { "product_id": 1, "quantity": 1 }
+  ]
+}</textarea>
+                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <pre class="try-response" hidden></pre>
+            </form>
+        </article>
+        <div class="note">Une cle et un contenu identiques renvoient le meme identifiant sans decrementer le stock une seconde fois. Reutiliser une cle avec un autre client ou panier retourne <code>409 idempotency_conflict</code>. Le stock est verifie et reserve dans la meme transaction.</div>
+    </section>
+
+    <section class="offline-queue" aria-live="polite">
+        <div class="queue-heading">
+            <h2>File de commandes hors ligne</h2>
+            <button class="queue-retry" type="button">Synchroniser</button>
+        </div>
+        <p class="queue-status">Chargement de la file locale…</p>
+        <ul class="queue-list"></ul>
+    </section>
+
+    <section>
+        <h2>Erreurs et exploitation</h2>
+        <p>Les erreurs suivent le format <code>{"error":"code","message":"..."}</code>. Codes principaux : <code>400</code> JSON invalide, <code>404</code> produit absent, <code>409</code> stock ou idempotence, <code>415</code> type de contenu, <code>422</code> validation, <code>503</code> base indisponible. Chaque reponse inclut <code>X-Response-Time-ms</code>.</p>
+    </section>
+    <footer>OpenAPI ecrit a la main, servi directement par l'API. Aucun Swagger UI distant ni ressource tierce.</footer>
+</main>
+<script>
+    const queueStorageKey = 'b2b-order-api.pending-orders.v1';
+    const queueStatus = document.querySelector('.queue-status');
+    const queueList = document.querySelector('.queue-list');
+    const queueRetry = document.querySelector('.queue-retry');
+    const orderForms = new Map();
+    let pendingOrders = [];
+    let queueReady = true;
+    let synchronizing = false;
+    let lastQueueMessage = '';
+
+    function saveQueue() {
+        if (!queueReady) throw new Error('Le stockage local est indisponible.');
+        localStorage.setItem(queueStorageKey, JSON.stringify(pendingOrders));
+    }
+
+    function renderQueue() {
+        queueList.replaceChildren();
+        const retryableCount = pendingOrders.filter((order) => order.state === 'pending').length;
+        queueRetry.disabled = synchronizing || !queueReady || retryableCount === 0;
+        queueStatus.textContent = !queueReady
+            ? 'Stockage local indisponible : les commandes hors ligne ne peuvent pas etre conservees sur cet appareil.'
+            : lastQueueMessage || (retryableCount
+                ? `${pendingOrders.length} commande(s) en attente de synchronisation. Elles restent stockees sur cet appareil.`
+                : pendingOrders.length
+                    ? `${pendingOrders.length} commande(s) a verifier. Elles ne seront pas renvoyees automatiquement.`
+                    : 'Aucune commande en attente.');
+
+        pendingOrders.forEach((order) => {
+            const item = document.createElement('li');
+            item.className = 'queue-item';
+            const key = document.createElement('code');
+            key.textContent = order.key;
+            const details = document.createElement('span');
+            details.textContent = order.state === 'blocked'
+                ? `A verifier — HTTP ${order.lastStatus}: ${order.lastError}`
+                : order.lastError
+                    ? `En attente — ${order.lastError}`
+                    : 'En attente d envoi';
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'queue-remove';
+            remove.textContent = 'Retirer';
+            remove.addEventListener('click', () => {
+                pendingOrders = pendingOrders.filter((entry) => entry.key !== order.key);
+                try {
+                    saveQueue();
+                    renderQueue();
+                } catch (error) {
+                    lastQueueMessage = `Erreur de stockage : ${error.message}`;
+                    renderQueue();
+                }
+            });
+            item.append(key, details, remove);
+            queueList.append(item);
+        });
+    }
+
+    try {
+        const savedQueue = localStorage.getItem(queueStorageKey);
+        if (savedQueue !== null) {
+            const parsedQueue = JSON.parse(savedQueue);
+            if (!Array.isArray(parsedQueue) || parsedQueue.some((order) =>
+                !order || typeof order.key !== 'string' || order.key.length < 1 || order.key.length > 255
+                || typeof order.body !== 'string'
+                || !['pending', 'blocked'].includes(order.state)
+            )) {
+                throw new Error('La file locale est invalide. Retirez les donnees du site pour la reinitialiser.');
+            }
+            pendingOrders = parsedQueue;
+        }
+    } catch (error) {
+        queueReady = false;
+        lastQueueMessage = `Erreur de stockage : ${error.message}`;
+    }
+    renderQueue();
+
+    async function fetchWithTimeout(url, options, timeoutMs) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            return await fetch(url, { ...options, signal: controller.signal });
+        } finally {
+            clearTimeout(timeout);
+        }
+    }
+
+    document.querySelectorAll('.try-button').forEach((button) => {
+        button.addEventListener('click', () => {
+            const panel = button.closest('.card').querySelector('.try-panel');
+            const opened = panel.classList.toggle('open');
+            button.setAttribute('aria-expanded', String(opened));
+            button.textContent = opened ? 'Masquer' : 'Try it out';
+        });
+    });
+
+    document.querySelectorAll('.generate-key').forEach((button) => {
+        button.addEventListener('click', async () => {
+            const form = button.closest('.try-panel');
+            const input = form.querySelector('[name="idempotency_key"]');
+            const status = form.querySelector('.key-status');
+            button.disabled = true;
+            status.textContent = 'Generation en cours…';
+            try {
+                const response = await fetchWithTimeout('/idempotency-key', {
+                    method: 'GET',
+                    headers: { Accept: 'application/json' },
+                    cache: 'no-store'
+                }, 5000);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                if (typeof data.idempotency_key !== 'string' || data.idempotency_key.length > 255) {
+                    throw new Error('La cle renvoyee par le serveur est invalide.');
+                }
+                input.value = data.idempotency_key;
+                status.textContent = 'Cle generee par PHP.';
+            } catch (error) {
+                if (!window.crypto || typeof window.crypto.getRandomValues !== 'function') {
+                    status.textContent = `Generation impossible hors ligne : ${error.message}`;
+                    button.disabled = false;
+                    return;
+                }
+                const bytes = new Uint8Array(32);
+                window.crypto.getRandomValues(bytes);
+                input.value = 'offline_' + Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+                status.textContent = 'API indisponible : cle aleatoire generee localement.';
+            } finally {
+                button.disabled = false;
+            }
+        });
+    });
+
+    function updateOrderForm(key, message, statusCode = null, responseBody = null) {
+        const form = orderForms.get(key);
+        if (!form) return;
+        const result = form.querySelector('.try-result');
+        const response = form.querySelector('.try-response');
+        result.textContent = statusCode === null ? message : `HTTP ${statusCode} · ${message}`;
+        if (responseBody !== null) {
+            response.textContent = responseBody;
+            response.hidden = false;
+        }
+    }
+
+    async function synchronizeQueue() {
+        if (synchronizing || !queueReady || pendingOrders.length === 0) return;
+        if (!pendingOrders.some((entry) => entry.state === 'pending')) {
+            lastQueueMessage = 'Les commandes en attente ont ete rejetees et necessitent une verification.';
+            renderQueue();
+            return;
+        }
+        if (!navigator.onLine) {
+            lastQueueMessage = 'Hors ligne : la commande est conservee sur cet appareil et sera reessayee au retour du reseau.';
+            renderQueue();
+            return;
+        }
+
+        synchronizing = true;
+        lastQueueMessage = 'Synchronisation des commandes en cours…';
+        renderQueue();
+        try {
+            while (navigator.onLine) {
+                const order = pendingOrders.find((entry) => entry.state === 'pending');
+                if (!order) break;
+
+                try {
+                    const response = await fetchWithTimeout('/orders', {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json',
+                            'Idempotency-Key': order.key
+                        },
+                        body: order.body
+                    }, 15000);
+                    const text = await response.text();
+                    let formatted = text;
+                    try { formatted = JSON.stringify(JSON.parse(text), null, 2); } catch {}
+
+                    if (response.ok) {
+                        pendingOrders = pendingOrders.filter((entry) => entry.key !== order.key);
+                        saveQueue();
+                        lastQueueMessage = `Commande envoyee (HTTP ${response.status}).`;
+                        updateOrderForm(order.key, `envoyee · API ${response.headers.get('X-Response-Time-ms') || '?'} ms`, response.status, formatted);
+                        renderQueue();
+                        continue;
+                    }
+
+                    let message = text;
+                    try { message = JSON.parse(text).message || text; } catch {}
+                    const retryable = response.status === 408 || response.status === 425
+                        || response.status === 429 || response.status >= 500;
+                    order.lastStatus = response.status;
+                    order.lastError = message;
+                    if (!retryable) order.state = 'blocked';
+                    saveQueue();
+                    lastQueueMessage = retryable
+                        ? `Serveur temporairement indisponible (HTTP ${response.status}) : nouvelle tentative possible.`
+                        : `Commande non acceptee (HTTP ${response.status}). Corrigez-la et creez une nouvelle commande avec une nouvelle cle.`;
+                    updateOrderForm(order.key, message, response.status, formatted);
+                    renderQueue();
+                    if (retryable) break;
+                } catch (error) {
+                    order.lastError = `Reseau indisponible ou delai depasse (${error.message})`;
+                    saveQueue();
+                    lastQueueMessage = 'Reseau indisponible : la commande reste en attente et sera reenvoyee avec la meme cle.';
+                    updateOrderForm(order.key, lastQueueMessage);
+                    renderQueue();
+                    break;
+                }
+            }
+        } catch (error) {
+            lastQueueMessage = `Erreur de synchronisation : ${error.message}`;
+        } finally {
+            synchronizing = false;
+            renderQueue();
+        }
+    }
+
+    queueRetry.addEventListener('click', synchronizeQueue);
+    window.addEventListener('online', synchronizeQueue);
+    window.addEventListener('offline', () => {
+        lastQueueMessage = 'Hors ligne : les commandes saisies resteront en attente.';
+        renderQueue();
+    });
+    if (pendingOrders.some((entry) => entry.state === 'pending') && navigator.onLine) synchronizeQueue();
+
+    document.querySelectorAll('.try-panel').forEach((form) => {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const button = form.querySelector('.try-send');
+            const result = form.querySelector('.try-result');
+            const response = form.querySelector('.try-response');
+            const values = new FormData(form);
+            let path = form.dataset.path;
+            if (form.dataset.pathTemplate) {
+                path = form.dataset.pathTemplate.replace('{id}', encodeURIComponent(values.get('id')));
+            } else if (form.dataset.method === 'GET') {
+                const query = new URLSearchParams();
+                ['page', 'per_page'].forEach((name) => {
+                    if (values.get(name)) query.set(name, values.get(name));
+                });
+                path += '?' + query.toString();
+            }
+
+            const headers = { Accept: 'application/json' };
+            if (form.dataset.method === 'POST') {
+                const key = String(values.get('idempotency_key') || '').trim();
+                const body = String(values.get('body') || '');
+                const result = form.querySelector('.try-result');
+                if (!queueReady) {
+                    result.textContent = 'Impossible de conserver la commande : le stockage local est indisponible.';
+                    return;
+                }
+                try {
+                    const payload = JSON.parse(body);
+                    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Le corps doit etre un objet JSON.');
+                } catch (error) {
+                    result.textContent = `JSON invalide : ${error.message}`;
+                    return;
+                }
+                if (!key || key.length > 255) {
+                    result.textContent = 'Generez une cle idempotente valide avant l envoi.';
+                    return;
+                }
+                const existing = pendingOrders.find((entry) => entry.key === key);
+                if (existing && existing.body !== body) {
+                    result.textContent = 'Cette cle existe deja dans la file avec un autre contenu. Generez une nouvelle cle.';
+                    return;
+                }
+                if (!existing) {
+                    pendingOrders.push({
+                        key,
+                        body,
+                        createdAt: new Date().toISOString(),
+                        state: 'pending',
+                        lastError: null,
+                        lastStatus: null
+                    });
+                    try {
+                        saveQueue();
+                    } catch (error) {
+                        pendingOrders = pendingOrders.filter((entry) => entry.key !== key);
+                        result.textContent = `Commande non envoyee : impossible de la conserver hors ligne (${error.message}).`;
+                        renderQueue();
+                        return;
+                    }
+                }
+                orderForms.set(key, form);
+                button.disabled = true;
+                lastQueueMessage = navigator.onLine
+                    ? 'Commande en file, envoi securise en cours…'
+                    : 'Hors ligne : commande conservee sur cet appareil, envoi differe.';
+                renderQueue();
+                try {
+                    await synchronizeQueue();
+                    if (pendingOrders.some((entry) => entry.key === key) && !form.querySelector('.try-result').textContent) {
+                        updateOrderForm(key, 'Commande conservee dans la file.');
+                    }
+                } finally {
+                    button.disabled = false;
+                }
+                return;
+            }
+
+            button.disabled = true;
+            result.textContent = 'Requete en cours…';
+            response.hidden = true;
+            try {
+                const options = { method: form.dataset.method, headers };
+                if (form.dataset.method === 'POST') options.body = values.get('body');
+                const res = await fetch(path, options);
+                const text = await res.text();
+                let formatted = text;
+                try { formatted = JSON.stringify(JSON.parse(text), null, 2); } catch {}
+                const elapsed = res.headers.get('X-Response-Time-ms');
+                result.textContent = `${res.status} ${res.statusText}${elapsed ? ` · API ${elapsed} ms` : ''}`;
+                response.textContent = formatted;
+                response.hidden = false;
+            } catch (error) {
+                result.textContent = `Erreur reseau : ${error.message}`;
+            } finally {
+                button.disabled = false;
+            }
+        });
+    });
+</script>
+</body>
+</html>

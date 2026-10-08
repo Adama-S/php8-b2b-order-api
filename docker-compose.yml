@@ -1,0 +1,61 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: php8_b2b_api
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "8080:80"
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB:-order_api}
+      DB_USER: ${POSTGRES_USER:-order_api}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-order_api}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+
+  db:
+    image: postgres:16-alpine
+    container_name: php8_b2b_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-order_api}
+      POSTGRES_USER: ${POSTGRES_USER:-order_api}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-order_api}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend
+
+  adminer:
+    image: adminer:4
+    container_name: php8_b2b_adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  postgres_data:
