@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#101827">
-    <title>B2B Order API — Accueil</title>
+    <title>B2B Order API — Home</title>
     <style>
         :root { color-scheme: light; --ink: #182238; --muted: #64718a; --blue: #4b67f5; --line: #e3e8f1; }
         * { box-sizing: border-box; }
@@ -35,26 +35,26 @@
 <body>
 <header class="hero">
     <div class="hero-inner">
-        <div class="eyebrow">PHP 8 natif · PostgreSQL · REST</div>
-        <h1>Commandes B2B,<br>sans complexite inutile.</h1>
-        <p>Une API legere concue pour les integrations metier : stock protege, commandes idempotentes et file locale pour les reseaux instables.</p>
+        <div class="eyebrow">Native PHP 8 · PostgreSQL · REST</div>
+        <h1>B2B orders,<br>without needless complexity.</h1>
+        <p>A lightweight API for business integrations: protected stock, idempotent orders, and a local queue for unreliable networks.</p>
         <div class="actions">
-            <a class="button primary" href="/docs">Ouvrir la documentation <span aria-hidden="true">→</span></a>
-            <a class="button" href="/openapi.json">Specification OpenAPI</a>
+            <a class="button primary" href="/docs">Open the documentation <span aria-hidden="true">→</span></a>
+            <a class="button" href="/openapi.json">OpenAPI specification</a>
         </div>
     </div>
 </header>
 <main>
     <div class="grid">
-        <article class="card"><b>Stock protege</b><p>Reservation dans une transaction avec verrouillage des produits et verification des quantites.</p><code>POST /orders</code></article>
-        <article class="card"><b>Requetes rejouables</b><p>Cle idempotente stable : les doubles appels ne creent pas une seconde commande.</p><code>GET /idempotency-key</code></article>
-        <article class="card"><b>Reseau tolerant</b><p>La documentation permet de mettre les commandes en attente et de les synchroniser au retour du reseau.</p><code>localStorage + retry</code></article>
+        <article class="card"><b>Protected stock</b><p>Stock reservation runs in a transaction with product row locking and quantity checks.</p><code>POST /orders</code></article>
+        <article class="card"><b>Safe retries</b><p>Stable idempotency keys prevent duplicate requests from creating duplicate orders.</p><code>GET /idempotency-key</code></article>
+        <article class="card"><b>Network resilient</b><p>The documentation queues orders locally and syncs them when connectivity returns.</p><code>localStorage + retry</code></article>
     </div>
     <div class="callout">
-        <div><strong>Tester l'API directement dans le navigateur</strong>Parcourez le catalogue, creez une commande ou consultez son etat depuis la documentation.</div>
-        <a href="/docs">Acceder aux endpoints →</a>
+        <div><strong>Try the API directly in your browser</strong>Browse the catalog, create an order, or look up its status from the documentation.</div>
+        <a href="/docs">Explore the endpoints →</a>
     </div>
 </main>
-<footer>API de demonstration en PHP natif · Documentation et contrat OpenAPI servis localement.</footer>
+<footer>Native PHP demo API · Documentation and OpenAPI contract served locally.</footer>
 </body>
 </html>
