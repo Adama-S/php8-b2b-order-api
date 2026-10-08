@@ -17,16 +17,16 @@ final class OpenApi
             'info' => [
                 'title' => 'B2B Order API',
                 'version' => '1.0.0',
-                'description' => 'API de commandes B2B en PHP natif, sans framework ni dependance d execution.',
+                'description' => 'A native PHP B2B order API with no framework or runtime dependencies.',
             ],
             'servers' => [['url' => '/']],
             'paths' => [
                 '/health' => [
                     'get' => [
-                        'summary' => 'Verifier la disponibilite de l API',
+                        'summary' => 'Check API availability',
                         'responses' => [
                             '200' => [
-                                'description' => 'API disponible',
+                                'description' => 'API is available',
                                 'content' => ['application/json' => ['schema' => ['$ref' => '#/components/schemas/Health']]],
                             ],
                         ],
@@ -34,10 +34,10 @@ final class OpenApi
                 ],
                 '/idempotency-key' => [
                     'get' => [
-                        'summary' => 'Generer une cle d idempotence aleatoire',
+                        'summary' => 'Generate a random idempotency key',
                         'responses' => [
                             '200' => [
-                                'description' => 'Cle cryptographiquement aleatoire',
+                                'description' => 'Cryptographically random key',
                                 'content' => ['application/json' => ['schema' => [
                                     'type' => 'object',
                                     'required' => ['idempotency_key'],
@@ -49,14 +49,14 @@ final class OpenApi
                 ],
                 '/products' => [
                     'get' => [
-                        'summary' => 'Lister les produits actifs',
+                        'summary' => 'List active products',
                         'parameters' => [
                             ['name' => 'page', 'in' => 'query', 'schema' => ['type' => 'integer', 'minimum' => 1, 'default' => 1]],
                             ['name' => 'per_page', 'in' => 'query', 'schema' => ['type' => 'integer', 'minimum' => 1, 'maximum' => 100, 'default' => 20]],
                         ],
                         'responses' => [
                             '200' => [
-                                'description' => 'Produits actifs et indicateur de page suivante',
+                                'description' => 'Active products and next-page indicator',
                                 'content' => ['application/json' => ['schema' => [
                                     'type' => 'object',
                                     'required' => ['data', 'pagination'],
@@ -73,40 +73,40 @@ final class OpenApi
                                     ],
                                 ]]],
                             ],
-                            '422' => ['description' => 'Parametres invalides', 'content' => ['application/json' => ['schema' => $error]]],
-                            '503' => ['description' => 'Base de donnees indisponible', 'content' => ['application/json' => ['schema' => $error]]],
+                            '422' => ['description' => 'Invalid pagination parameters', 'content' => ['application/json' => ['schema' => $error]]],
+                            '503' => ['description' => 'Database unavailable', 'content' => ['application/json' => ['schema' => $error]]],
                         ],
                     ],
                 ],
                 '/products/{id}' => [
                     'get' => [
-                        'summary' => 'Consulter un produit actif',
+                        'summary' => 'Get an active product',
                         'parameters' => [
                             ['name' => 'id', 'in' => 'path', 'required' => true, 'schema' => ['type' => 'integer', 'minimum' => 1]],
                         ],
                         'responses' => [
                             '200' => [
-                                'description' => 'Produit',
+                                'description' => 'Product details',
                                 'content' => ['application/json' => ['schema' => [
                                     'type' => 'object',
                                     'properties' => ['data' => $product],
                                 ]]],
                             ],
-                            '404' => ['description' => 'Produit introuvable', 'content' => ['application/json' => ['schema' => $error]]],
-                            '503' => ['description' => 'Base de donnees indisponible', 'content' => ['application/json' => ['schema' => $error]]],
+                            '404' => ['description' => 'Product not found', 'content' => ['application/json' => ['schema' => $error]]],
+                            '503' => ['description' => 'Database unavailable', 'content' => ['application/json' => ['schema' => $error]]],
                         ],
                     ],
                 ],
                 '/orders' => [
                     'get' => [
-                        'summary' => 'Lister les commandes recentes',
+                        'summary' => 'List recent orders',
                         'parameters' => [
                             ['name' => 'page', 'in' => 'query', 'schema' => ['type' => 'integer', 'minimum' => 1, 'default' => 1]],
                             ['name' => 'per_page', 'in' => 'query', 'schema' => ['type' => 'integer', 'minimum' => 1, 'maximum' => 100, 'default' => 20]],
                         ],
                         'responses' => [
                             '200' => [
-                                'description' => 'Commandes recentes et indicateur de page suivante',
+                                'description' => 'Recent orders and next-page indicator',
                                 'content' => ['application/json' => ['schema' => [
                                     'type' => 'object',
                                     'required' => ['data', 'pagination'],
@@ -123,13 +123,13 @@ final class OpenApi
                                     ],
                                 ]]],
                             ],
-                            '422' => ['description' => 'Parametres invalides', 'content' => ['application/json' => ['schema' => $error]]],
-                            '503' => ['description' => 'Base de donnees indisponible', 'content' => ['application/json' => ['schema' => $error]]],
+                            '422' => ['description' => 'Invalid pagination parameters', 'content' => ['application/json' => ['schema' => $error]]],
+                            '503' => ['description' => 'Database unavailable', 'content' => ['application/json' => ['schema' => $error]]],
                         ],
                     ],
                     'post' => [
-                        'summary' => 'Creer une commande et reserver le stock',
-                        'description' => 'Rejouer la meme cle et le meme contenu retourne la commande existante sans reserver a nouveau. Une meme cle avec un contenu different retourne 409.',
+                        'summary' => 'Create an order and reserve stock',
+                        'description' => 'Replaying the same key with the same content returns the existing order without reserving stock again. Reusing a key with different content returns 409.',
                         'parameters' => [
                             [
                                 'name' => 'Idempotency-Key',
@@ -166,37 +166,37 @@ final class OpenApi
                         ],
                         'responses' => [
                             '201' => [
-                                'description' => 'Commande creee ou deja creee pour cette cle',
+                                'description' => 'Order created or already created for this key',
                                 'content' => ['application/json' => ['schema' => [
                                     'type' => 'object',
                                     'properties' => ['data' => $order],
                                 ]]],
                             ],
-                            '400' => ['description' => 'JSON invalide ou cle idempotente manquante', 'content' => ['application/json' => ['schema' => $error]]],
-                            '404' => ['description' => 'Produit introuvable', 'content' => ['application/json' => ['schema' => $error]]],
-                            '409' => ['description' => 'Stock insuffisant ou cle reutilisee avec un autre contenu', 'content' => ['application/json' => ['schema' => $error]]],
-                            '415' => ['description' => 'Content-Type non supporte', 'content' => ['application/json' => ['schema' => $error]]],
-                            '422' => ['description' => 'Commande invalide ou produit indisponible', 'content' => ['application/json' => ['schema' => $error]]],
-                            '503' => ['description' => 'Base de donnees indisponible', 'content' => ['application/json' => ['schema' => $error]]],
+                            '400' => ['description' => 'Invalid JSON or missing idempotency key', 'content' => ['application/json' => ['schema' => $error]]],
+                            '404' => ['description' => 'Product not found', 'content' => ['application/json' => ['schema' => $error]]],
+                            '409' => ['description' => 'Insufficient stock or key reused with different content', 'content' => ['application/json' => ['schema' => $error]]],
+                            '415' => ['description' => 'Unsupported content type', 'content' => ['application/json' => ['schema' => $error]]],
+                            '422' => ['description' => 'Invalid order or unavailable product', 'content' => ['application/json' => ['schema' => $error]]],
+                            '503' => ['description' => 'Database unavailable', 'content' => ['application/json' => ['schema' => $error]]],
                         ],
                     ],
                 ],
                 '/orders/{id}' => [
                     'get' => [
-                        'summary' => 'Consulter une commande',
+                        'summary' => 'Get an order',
                         'parameters' => [
                             ['name' => 'id', 'in' => 'path', 'required' => true, 'schema' => ['type' => 'integer', 'minimum' => 1]],
                         ],
                         'responses' => [
                             '200' => [
-                                'description' => 'Commande et lignes avec prix factures',
+                                'description' => 'Order and line items with their recorded prices',
                                 'content' => ['application/json' => ['schema' => [
                                     'type' => 'object',
                                     'properties' => ['data' => $order],
                                 ]]],
                             ],
-                            '404' => ['description' => 'Commande introuvable', 'content' => ['application/json' => ['schema' => $error]]],
-                            '503' => ['description' => 'Base de donnees indisponible', 'content' => ['application/json' => ['schema' => $error]]],
+                            '404' => ['description' => 'Order not found', 'content' => ['application/json' => ['schema' => $error]]],
+                            '503' => ['description' => 'Database unavailable', 'content' => ['application/json' => ['schema' => $error]]],
                         ],
                     ],
                 ],

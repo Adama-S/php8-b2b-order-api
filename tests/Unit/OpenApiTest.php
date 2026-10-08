@@ -14,6 +14,8 @@ final class OpenApiTest extends TestCase
         $specification = OpenApi::specification();
 
         self::assertSame('3.1.0', $specification['openapi']);
+        self::assertSame('List active products', $specification['paths']['/products']['get']['summary']);
+        self::assertSame('Create an order and reserve stock', $specification['paths']['/orders']['post']['summary']);
         self::assertArrayHasKey('/products', $specification['paths']);
         self::assertArrayHasKey('/products/{id}', $specification['paths']);
         self::assertArrayHasKey('/idempotency-key', $specification['paths']);

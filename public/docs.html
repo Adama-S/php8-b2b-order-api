@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,63 +65,63 @@
 <header>
     <div class="eyebrow">PHP natif · PostgreSQL · REST</div>
     <h1>B2B Order API</h1>
-    <p>Une API volontairement compacte pour les integrations metier : commandes idempotentes, stock protege et reponses JSON previsibles, sans framework ni dependance cote navigateur.</p>
+    <p>A deliberately compact API for business integrations: idempotent orders, protected stock, and predictable JSON responses, without a framework or browser-side dependencies.</p>
 </header>
 <main>
     <div class="toolbar">
-        <a class="button" href="/">Accueil</a>
-        <div class="status"><span class="dot"></span> API disponible <code>GET /health</code></div>
-        <a class="button" href="/openapi.json">Specification OpenAPI 3.1 ↗</a>
+        <a class="button" href="/">Home</a>
+        <div class="status"><span class="dot"></span> API available <code>GET /health</code></div>
+        <a class="button" href="/openapi.json">OpenAPI 3.1 specification ↗</a>
     </div>
 
     <section>
-        <h2>Catalogue</h2>
+        <h2>Catalog</h2>
         <article class="card">
-            <div class="endpoint"><span class="method get">GET</span><code>/products</code><strong>Liste paginee des produits actifs</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
-            <div class="details">Parametres : <code>page</code> (defaut 1), <code>per_page</code> (defaut 20, max 100). Prix en centimes.</div>
+            <div class="endpoint"><span class="method get">GET</span><code>/products</code><strong>Paginated list of active products</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">Parameters: <code>page</code> (default 1), <code>per_page</code> (default 20, max 100). Prices are in cents.</div>
             <form class="try-panel" data-method="GET" data-path="/products">
                 <label>page</label><input name="page" type="number" min="1" value="1">
                 <label>per_page</label><input name="per_page" type="number" min="1" max="100" value="10">
-                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <div class="try-actions"><button class="try-send" type="submit">Execute</button><span class="try-result" aria-live="polite"></span></div>
                 <pre class="try-response" hidden></pre>
             </form>
         </article>
         <article class="card">
-            <div class="endpoint"><span class="method get">GET</span><code>/products/{id}</code><strong>Detail et quantite disponible</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
-            <div class="details">Les produits inactifs sont masques et retournes comme introuvables.</div>
+            <div class="endpoint"><span class="method get">GET</span><code>/products/{id}</code><strong>Product details and available stock</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">Inactive products are hidden and returned as not found.</div>
             <form class="try-panel" data-method="GET" data-path-template="/products/{id}">
                 <label>id</label><input name="id" type="number" min="1" value="1" required>
-                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <div class="try-actions"><button class="try-send" type="submit">Execute</button><span class="try-result" aria-live="polite"></span></div>
                 <pre class="try-response" hidden></pre>
             </form>
         </article>
     </section>
 
     <section>
-        <h2>Commandes</h2>
+        <h2>Orders</h2>
         <article class="card">
-            <div class="endpoint"><span class="method get">GET</span><code>/orders</code><strong>Liste paginee des commandes recentes</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
-            <div class="details">Parametres : <code>page</code> (defaut 1), <code>per_page</code> (defaut 20, max 100). Les commandes les plus recentes apparaissent en premier.</div>
+            <div class="endpoint"><span class="method get">GET</span><code>/orders</code><strong>Paginated list of recent orders</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">Parameters: <code>page</code> (default 1), <code>per_page</code> (default 20, max 100). The most recent orders appear first.</div>
             <form class="try-panel" data-method="GET" data-path="/orders">
                 <label>page</label><input name="page" type="number" min="1" value="1">
                 <label>per_page</label><input name="per_page" type="number" min="1" max="100" value="10">
-                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <div class="try-actions"><button class="try-send" type="submit">Execute</button><span class="try-result" aria-live="polite"></span></div>
                 <pre class="try-response" hidden></pre>
             </form>
         </article>
         <article class="card">
-            <div class="endpoint"><span class="method get">GET</span><code>/orders/{id}</code><strong>Detail d'une commande</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
-            <div class="details">Retourne le statut, le total, la date de creation et les lignes avec leur prix fige au moment de la commande.</div>
+            <div class="endpoint"><span class="method get">GET</span><code>/orders/{id}</code><strong>Order details</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="details">Returns the status, total, creation date, and items with prices captured when the order was placed.</div>
             <form class="try-panel" data-method="GET" data-path-template="/orders/{id}">
                 <label>id</label><input name="id" type="number" min="1" value="1" required>
-                <div class="try-actions"><button class="try-send" type="submit">Executer</button><span class="try-result" aria-live="polite"></span></div>
+                <div class="try-actions"><button class="try-send" type="submit">Execute</button><span class="try-result" aria-live="polite"></span></div>
                 <pre class="try-response" hidden></pre>
             </form>
         </article>
         <article class="card">
-            <div class="endpoint"><span class="method post">POST</span><code>/orders</code><strong>Creer une commande</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
+            <div class="endpoint"><span class="method post">POST</span><code>/orders</code><strong>Create an order</strong><button class="try-button" type="button" aria-expanded="false">Try it out</button></div>
             <div class="details">
-                Envoyer <code>Content-Type: application/json</code> et une cle stable dans <code>Idempotency-Key</code>.
+                Send <code>Content-Type: application/json</code> and a stable key in <code>Idempotency-Key</code>.
                 <pre>{
   "customer_id": 42,
   "items": [
@@ -133,7 +133,7 @@
                 <label>Idempotency-Key</label>
                 <div class="input-with-button">
                     <input name="idempotency_key" type="text" maxlength="255" required>
-                    <button class="generate-key" type="button">Generer</button>
+                    <button class="generate-key" type="button">Generate</button>
                 </div>
                 <div class="key-status" aria-live="polite"></div>
                 <label>Request body</label><textarea name="body" required>{
@@ -146,23 +146,23 @@
                 <pre class="try-response" hidden></pre>
             </form>
         </article>
-        <div class="note">Une cle et un contenu identiques renvoient le meme identifiant sans decrementer le stock une seconde fois. Reutiliser une cle avec un autre client ou panier retourne <code>409 idempotency_conflict</code>. Le stock est verifie et reserve dans la meme transaction.</div>
+        <div class="note">The same key and order content return the same order without decrementing stock again. Reusing a key with a different customer or cart returns <code>409 idempotency_conflict</code>. Stock is checked and reserved in the same transaction.</div>
     </section>
 
     <section class="offline-queue" aria-live="polite">
         <div class="queue-heading">
-            <h2>File de commandes hors ligne</h2>
-            <button class="queue-retry" type="button">Synchroniser</button>
+            <h2>Offline order queue</h2>
+            <button class="queue-retry" type="button">Sync now</button>
         </div>
-        <p class="queue-status">Chargement de la file locale…</p>
+        <p class="queue-status">Loading local queue…</p>
         <ul class="queue-list"></ul>
     </section>
 
     <section>
-        <h2>Erreurs et exploitation</h2>
-        <p>Les erreurs suivent le format <code>{"error":"code","message":"..."}</code>. Codes principaux : <code>400</code> JSON invalide, <code>404</code> produit absent, <code>409</code> stock ou idempotence, <code>415</code> type de contenu, <code>422</code> validation, <code>503</code> base indisponible. Chaque reponse inclut <code>X-Response-Time-ms</code>.</p>
+        <h2>Errors and operations</h2>
+        <p>Errors use the format <code>{"error":"code","message":"..."}</code>. Main status codes: <code>400</code> invalid JSON, <code>404</code> product not found, <code>409</code> stock or idempotency conflict, <code>415</code> unsupported content type, <code>422</code> validation error, <code>503</code> database unavailable. Each response includes <code>X-Response-Time-ms</code>.</p>
     </section>
-    <footer>OpenAPI ecrit a la main, servi directement par l'API. Aucun Swagger UI distant ni ressource tierce.</footer>
+    <footer>Handwritten OpenAPI, served directly by the API. No remote Swagger UI or third-party resources.</footer>
 </main>
 <script>
     const queueStorageKey = 'b2b-order-api.pending-orders.v1';
@@ -176,7 +176,7 @@
     let lastQueueMessage = '';
 
     function saveQueue() {
-        if (!queueReady) throw new Error('Le stockage local est indisponible.');
+        if (!queueReady) throw new Error('Local storage is unavailable.');
         localStorage.setItem(queueStorageKey, JSON.stringify(pendingOrders));
     }
 
@@ -185,12 +185,12 @@
         const retryableCount = pendingOrders.filter((order) => order.state === 'pending').length;
         queueRetry.disabled = synchronizing || !queueReady || retryableCount === 0;
         queueStatus.textContent = !queueReady
-            ? 'Stockage local indisponible : les commandes hors ligne ne peuvent pas etre conservees sur cet appareil.'
+            ? 'Local storage is unavailable. Offline orders cannot be saved on this device.'
             : lastQueueMessage || (retryableCount
-                ? `${pendingOrders.length} commande(s) en attente de synchronisation. Elles restent stockees sur cet appareil.`
+                ? `${pendingOrders.length} order(s) waiting to sync. They remain saved on this device.`
                 : pendingOrders.length
-                    ? `${pendingOrders.length} commande(s) a verifier. Elles ne seront pas renvoyees automatiquement.`
-                    : 'Aucune commande en attente.');
+                    ? `${pendingOrders.length} order(s) need review. They will not be retried automatically.`
+                    : 'No pending orders.');
 
         pendingOrders.forEach((order) => {
             const item = document.createElement('li');
@@ -199,21 +199,21 @@
             key.textContent = order.key;
             const details = document.createElement('span');
             details.textContent = order.state === 'blocked'
-                ? `A verifier — HTTP ${order.lastStatus}: ${order.lastError}`
+                ? `Needs review — HTTP ${order.lastStatus}: ${order.lastError}`
                 : order.lastError
-                    ? `En attente — ${order.lastError}`
-                    : 'En attente d envoi';
+                    ? `Pending — ${order.lastError}`
+                    : 'Waiting to send';
             const remove = document.createElement('button');
             remove.type = 'button';
             remove.className = 'queue-remove';
-            remove.textContent = 'Retirer';
+            remove.textContent = 'Remove';
             remove.addEventListener('click', () => {
                 pendingOrders = pendingOrders.filter((entry) => entry.key !== order.key);
                 try {
                     saveQueue();
                     renderQueue();
                 } catch (error) {
-                    lastQueueMessage = `Erreur de stockage : ${error.message}`;
+                    lastQueueMessage = `Storage error: ${error.message}`;
                     renderQueue();
                 }
             });
@@ -231,13 +231,13 @@
                 || typeof order.body !== 'string'
                 || !['pending', 'blocked'].includes(order.state)
             )) {
-                throw new Error('La file locale est invalide. Retirez les donnees du site pour la reinitialiser.');
+                throw new Error('The local queue is invalid. Clear this site’s data to reset it.');
             }
             pendingOrders = parsedQueue;
         }
     } catch (error) {
         queueReady = false;
-        lastQueueMessage = `Erreur de stockage : ${error.message}`;
+        lastQueueMessage = `Storage error: ${error.message}`;
     }
     renderQueue();
 
@@ -256,7 +256,7 @@
             const panel = button.closest('.card').querySelector('.try-panel');
             const opened = panel.classList.toggle('open');
             button.setAttribute('aria-expanded', String(opened));
-            button.textContent = opened ? 'Masquer' : 'Try it out';
+            button.textContent = opened ? 'Hide' : 'Try it out';
         });
     });
 
@@ -266,7 +266,7 @@
             const input = form.querySelector('[name="idempotency_key"]');
             const status = form.querySelector('.key-status');
             button.disabled = true;
-            status.textContent = 'Generation en cours…';
+            status.textContent = 'Generating…';
             try {
                 const response = await fetchWithTimeout('/idempotency-key', {
                     method: 'GET',
@@ -276,20 +276,20 @@
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 if (typeof data.idempotency_key !== 'string' || data.idempotency_key.length > 255) {
-                    throw new Error('La cle renvoyee par le serveur est invalide.');
+                    throw new Error('The key returned by the server is invalid.');
                 }
                 input.value = data.idempotency_key;
-                status.textContent = 'Cle generee par PHP.';
+                status.textContent = 'Key generated by PHP.';
             } catch (error) {
                 if (!window.crypto || typeof window.crypto.getRandomValues !== 'function') {
-                    status.textContent = `Generation impossible hors ligne : ${error.message}`;
+                    status.textContent = `Could not generate a key offline: ${error.message}`;
                     button.disabled = false;
                     return;
                 }
                 const bytes = new Uint8Array(32);
                 window.crypto.getRandomValues(bytes);
                 input.value = 'offline_' + Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
-                status.textContent = 'API indisponible : cle aleatoire generee localement.';
+                status.textContent = 'API unavailable: a random key was generated locally.';
             } finally {
                 button.disabled = false;
             }
@@ -311,18 +311,18 @@
     async function synchronizeQueue() {
         if (synchronizing || !queueReady || pendingOrders.length === 0) return;
         if (!pendingOrders.some((entry) => entry.state === 'pending')) {
-            lastQueueMessage = 'Les commandes en attente ont ete rejetees et necessitent une verification.';
+            lastQueueMessage = 'Pending orders were rejected and need review.';
             renderQueue();
             return;
         }
         if (!navigator.onLine) {
-            lastQueueMessage = 'Hors ligne : la commande est conservee sur cet appareil et sera reessayee au retour du reseau.';
+            lastQueueMessage = 'Offline: the order is saved on this device and will be retried when connectivity returns.';
             renderQueue();
             return;
         }
 
         synchronizing = true;
-        lastQueueMessage = 'Synchronisation des commandes en cours…';
+        lastQueueMessage = 'Syncing orders…';
         renderQueue();
         try {
             while (navigator.onLine) {
@@ -346,8 +346,8 @@
                     if (response.ok) {
                         pendingOrders = pendingOrders.filter((entry) => entry.key !== order.key);
                         saveQueue();
-                        lastQueueMessage = `Commande envoyee (HTTP ${response.status}).`;
-                        updateOrderForm(order.key, `envoyee · API ${response.headers.get('X-Response-Time-ms') || '?'} ms`, response.status, formatted);
+                        lastQueueMessage = `Order sent (HTTP ${response.status}).`;
+                        updateOrderForm(order.key, `Sent · API ${response.headers.get('X-Response-Time-ms') || '?'} ms`, response.status, formatted);
                         renderQueue();
                         continue;
                     }
@@ -361,22 +361,22 @@
                     if (!retryable) order.state = 'blocked';
                     saveQueue();
                     lastQueueMessage = retryable
-                        ? `Serveur temporairement indisponible (HTTP ${response.status}) : nouvelle tentative possible.`
-                        : `Commande non acceptee (HTTP ${response.status}). Corrigez-la et creez une nouvelle commande avec une nouvelle cle.`;
+                        ? `Server temporarily unavailable (HTTP ${response.status}): you can retry.`
+                        : `Order rejected (HTTP ${response.status}). Correct it and submit a new order with a new key.`;
                     updateOrderForm(order.key, message, response.status, formatted);
                     renderQueue();
                     if (retryable) break;
                 } catch (error) {
-                    order.lastError = `Reseau indisponible ou delai depasse (${error.message})`;
+                    order.lastError = `Network unavailable or request timed out (${error.message})`;
                     saveQueue();
-                    lastQueueMessage = 'Reseau indisponible : la commande reste en attente et sera reenvoyee avec la meme cle.';
+                    lastQueueMessage = 'Network unavailable: the order remains queued and will be retried with the same key.';
                     updateOrderForm(order.key, lastQueueMessage);
                     renderQueue();
                     break;
                 }
             }
         } catch (error) {
-            lastQueueMessage = `Erreur de synchronisation : ${error.message}`;
+            lastQueueMessage = `Sync error: ${error.message}`;
         } finally {
             synchronizing = false;
             renderQueue();
@@ -386,7 +386,7 @@
     queueRetry.addEventListener('click', synchronizeQueue);
     window.addEventListener('online', synchronizeQueue);
     window.addEventListener('offline', () => {
-        lastQueueMessage = 'Hors ligne : les commandes saisies resteront en attente.';
+        lastQueueMessage = 'Offline: submitted orders will remain queued.';
         renderQueue();
     });
     if (pendingOrders.some((entry) => entry.state === 'pending') && navigator.onLine) synchronizeQueue();
@@ -415,23 +415,23 @@
                 const body = String(values.get('body') || '');
                 const result = form.querySelector('.try-result');
                 if (!queueReady) {
-                    result.textContent = 'Impossible de conserver la commande : le stockage local est indisponible.';
+                    result.textContent = 'Cannot queue this order: local storage is unavailable.';
                     return;
                 }
                 try {
                     const payload = JSON.parse(body);
-                    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Le corps doit etre un objet JSON.');
+                    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('The body must be a JSON object.');
                 } catch (error) {
-                    result.textContent = `JSON invalide : ${error.message}`;
+                    result.textContent = `Invalid JSON: ${error.message}`;
                     return;
                 }
                 if (!key || key.length > 255) {
-                    result.textContent = 'Generez une cle idempotente valide avant l envoi.';
+                    result.textContent = 'Generate a valid idempotency key before submitting.';
                     return;
                 }
                 const existing = pendingOrders.find((entry) => entry.key === key);
                 if (existing && existing.body !== body) {
-                    result.textContent = 'Cette cle existe deja dans la file avec un autre contenu. Generez une nouvelle cle.';
+                    result.textContent = 'This key is already queued with different content. Generate a new key.';
                     return;
                 }
                 if (!existing) {
@@ -447,7 +447,7 @@
                         saveQueue();
                     } catch (error) {
                         pendingOrders = pendingOrders.filter((entry) => entry.key !== key);
-                        result.textContent = `Commande non envoyee : impossible de la conserver hors ligne (${error.message}).`;
+                        result.textContent = `Order not sent: unable to save it for offline use (${error.message}).`;
                         renderQueue();
                         return;
                     }
@@ -455,13 +455,13 @@
                 orderForms.set(key, form);
                 button.disabled = true;
                 lastQueueMessage = navigator.onLine
-                    ? 'Commande en file, envoi securise en cours…'
-                    : 'Hors ligne : commande conservee sur cet appareil, envoi differe.';
+                    ? 'Order queued; sending safely…'
+                    : 'Offline: order saved on this device and will be sent later.';
                 renderQueue();
                 try {
                     await synchronizeQueue();
                     if (pendingOrders.some((entry) => entry.key === key) && !form.querySelector('.try-result').textContent) {
-                        updateOrderForm(key, 'Commande conservee dans la file.');
+                        updateOrderForm(key, 'Order saved in the queue.');
                     }
                 } finally {
                     button.disabled = false;
@@ -470,7 +470,7 @@
             }
 
             button.disabled = true;
-            result.textContent = 'Requete en cours…';
+            result.textContent = 'Request in progress…';
             response.hidden = true;
             try {
                 const options = { method: form.dataset.method, headers };
@@ -484,7 +484,7 @@
                 response.textContent = formatted;
                 response.hidden = false;
             } catch (error) {
-                result.textContent = `Erreur reseau : ${error.message}`;
+                result.textContent = `Network error: ${error.message}`;
             } finally {
                 button.disabled = false;
             }
